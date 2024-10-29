@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/PWr Racing Team - recruitment task.vcxproj.filters
+/PWr Racing Team - recruitment task.vcxproj
+/PWr Racing Team - recruitment task.sln
+/.gitattributes
