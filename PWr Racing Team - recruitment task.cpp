@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 
-//  Point struct
+//  Point struct (mine)
 struct Point
 {
     double x, y;
@@ -15,8 +15,8 @@ struct Point
     }
 };
 
-//  SplitText function
-std::vector<std::string> SplitText(std::string text, char delimiter)
+//  SplitText function (mine)
+std::vector<std::string> SplitText(std::string& text, char delimiter)
 {
     std::vector<std::string> splitTextVector;
     std::vector<int> delimitersIndexes;
@@ -35,12 +35,12 @@ std::vector<std::string> SplitText(std::string text, char delimiter)
     return splitTextVector;
 }
 
-// Funkcja pomocnicza do obliczenia iloczynu wektorowego - ChatGPT
+// Funkcja pomocnicza do obliczenia iloczynu wektorowego (ChatGPT)
 int crossProduct(const Point& O, const Point& A, const Point& B) {
     return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
 }
 
-// Funkcja porównująca do sortowania względem kąta biegunowego - ChatGPT
+// Funkcja porównująca do sortowania względem kąta biegunowego (ChatGPT)
 bool polarOrder(const Point& p0, const Point& p1, const Point& p2) {
     int order = crossProduct(p0, p1, p2);
     if (order == 0) // jeśli są współliniowe, wybieramy punkt bliższy
@@ -49,7 +49,7 @@ bool polarOrder(const Point& p0, const Point& p1, const Point& p2) {
     return (order > 0);
 }
 
-//  Convex hull (Graham algorythm) - ChatGPT
+//  Convex hull (Graham algorythm) (ChatGPT)
 std::vector<Point> ConvexHull_Graham(std::vector<Point>& points)
 {
     // Krok 1: znajdź punkt o najmniejszej współrzędnej y
@@ -75,6 +75,7 @@ std::vector<Point> ConvexHull_Graham(std::vector<Point>& points)
     return hull;
 }
 
+//  Main function (mine)
 int main()
 {
     std::cout << "\n - Surrounding points on a plane - \n";
@@ -86,7 +87,7 @@ int main()
     std::cin >> fileName;
     //  Opening the file
     std::string pointLine;
-    std::ifstream fileRead(fileName);
+    std::ifstream fileRead(fileName);   //  for now will throw up if file doesn't exist, needs checking :(
     getline(fileRead, pointLine);
     int pointsAmount = stoi(pointLine);
     //  Creating a Point vector out of the lines in the file
@@ -98,20 +99,26 @@ int main()
     }
     fileRead.close();
     //  LOG: Point vector - works
-    std::cout << "\nInput points:\n";
+    std::cout << "\nIntput points:\n" << "[";
     for (int i = 0; i < pointsVector.size(); i++)
     {
-        std::cout << pointsVector[i].x << " " << pointsVector[i].y << std::endl;
+        if (i > 0)
+            std::cout << ", ";
+        std::cout << "(" << pointsVector[i].x << ", " << pointsVector[i].y << ")";
     }
+    std::cout << "]\n";
 
-    //  Get the surrounding points using Graham algorithm for convex hull
+    //      Getting the surrounding points using Graham algorithm for convex hull
     std::vector<Point> surroundingPointsVector = ConvexHull_Graham(pointsVector);
     //  LOG: Surrounding points vector - works!!!
-    std::cout << "\nOutput points:\n";
+    std::cout << "\nOutput points:\n" << "[";
     for (int i = 0; i < surroundingPointsVector.size(); i++)
     {
-        std::cout << surroundingPointsVector[i].x << " " << surroundingPointsVector[i].y << std::endl;
+        if (i > 0)
+            std::cout << ", ";
+        std::cout << "(" << surroundingPointsVector[i].x << ", " << surroundingPointsVector[i].y << ")";
     }
+    std::cout << "]\n";
 
     return 0;
 }
