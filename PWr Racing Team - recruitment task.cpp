@@ -19,53 +19,57 @@ struct Point
 std::vector<std::string> SplitText(std::string& text, char delimiter)
 {
     std::vector<std::string> splitTextVector;
+    //  I already forgot what I did here lmao
+    //  I'm checking for all appearances of the delimiter
     std::vector<int> delimitersIndexes;
     for (int i = 0; i < text.size(); i++)
     {
         if (text[i] == delimiter)
             delimitersIndexes.push_back(i);
     }
+    //  then I'm making substrings according to the delimiter appearances
     splitTextVector.push_back(text.substr(0, delimitersIndexes[0]));
     for (int i = 0; i < delimitersIndexes.size() - 1; i++)
     {
         splitTextVector.push_back(text.substr(delimitersIndexes[i], delimitersIndexes[i + 1] - delimitersIndexes[i]));
     }
     splitTextVector.push_back(text.substr(delimitersIndexes[delimitersIndexes.size() - 1], text.size() - delimitersIndexes[delimitersIndexes.size() - 1]));
+    //  Actually I didn't have to do that for more than 1 appearance of the delimiter, but I'm ambitious lol
 
     return splitTextVector;
 }
 
-// Funkcja pomocnicza do obliczenia iloczynu wektorowego (ChatGPT)
+// Helper function to calculate the cross product (ChatGPT)
 int crossProduct(const Point& O, const Point& A, const Point& B) {
     return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
 }
 
-// Funkcja porównująca do sortowania względem kąta biegunowego (ChatGPT)
+// Comparison function for sorting based on polar angle (ChatGPT)
 bool polarOrder(const Point& p0, const Point& p1, const Point& p2) {
     int order = crossProduct(p0, p1, p2);
-    if (order == 0) // jeśli są współliniowe, wybieramy punkt bliższy
+    if (order == 0) // if points are collinear, choose the closer point
         return (p1.x - p0.x) * (p1.x - p0.x) + (p1.y - p0.y) * (p1.y - p0.y) <
         (p2.x - p0.x) * (p2.x - p0.x) + (p2.y - p0.y) * (p2.y - p0.y);
     return (order > 0);
 }
 
-//  Convex hull (Graham algorythm) (ChatGPT)
+//  Convex hull function (Graham algorithm) (ChatGPT)
 std::vector<Point> ConvexHull_Graham(std::vector<Point>& points)
 {
-    // Krok 1: znajdź punkt o najmniejszej współrzędnej y
+    // Step 1: find the point with the smallest y-coordinate
     Point p0 = *std::min_element(points.begin(), points.end(), [](Point a, Point b) {
         return a.y < b.y || (a.y == b.y && a.x < b.x);
         });
 
-    // Krok 2: Posortuj punkty względem kąta biegunowego w stosunku do p0
+    // Step 2: Sort points by polar angle relative to p0
     std::sort(points.begin(), points.end(), [&p0](Point a, Point b) {
         return polarOrder(p0, a, b);
         });
 
-    // Krok 3: Budowanie otoczki wypukłej
+    // Step 3: Build the convex hull
     std::vector<Point> hull;
     for (const auto& point : points) {
-        // Usuń punkty tworzące zakręt w prawo
+        // Remove points that make a right turn
         while (hull.size() > 1 && crossProduct(hull[hull.size() - 2], hull.back(), point) <= 0) {
             hull.pop_back();
         }
@@ -87,7 +91,7 @@ int main()
     std::cin >> fileName;
     //  Opening the file
     std::string pointLine;
-    std::ifstream fileRead(fileName);   //  for now will throw up if file doesn't exist, needs checking :(
+    std::ifstream fileRead(fileName);   //  for now it will throw up if file doesn't exist, needs checking :(
     getline(fileRead, pointLine);
     int pointsAmount = stoi(pointLine);
     //  Creating a Point vector out of the lines in the file
