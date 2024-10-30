@@ -14,4 +14,3 @@ Zastosowane rozwiązania:
 - Algorytm pomocniczy do obliczenia iloczynu wektorowego (też ChatGPT)
 - Algorytm porównujący do sortowania względem kąta biegunowego (też ChatGPT)
 - Jeśli zdążę, to dorzucę własny algorytm na otaczające punkty, ale wątpię żebym się z tym wyrobił (pomysł jest taki, żeby policzyć wzory na linie między każdą parą punktów i sprawdzić, które z nich nie mają żadnych punktów po jednej ze stron, punkty definiujące te linie są punktami otaczającymi, zdaję sobie jednak sprawę, że to rozwiązanie ma wykładniczy przyrost czasu do ilości punktów)
-
