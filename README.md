@@ -1,4 +1,4 @@
-﻿# Opis mojego rozwiązania
+# Opis mojego rozwiązania
 
 ## Wszystko jest jak w poleceniu (mam nadzieję lol)
 1. Pobieram nazwę pliku z punktami
