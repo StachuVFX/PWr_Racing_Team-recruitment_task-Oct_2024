@@ -13,4 +13,4 @@
 - Algorytm Grahama na otoczkę wypukłą (napisany przez ChatGPT bo ja takiej matmy jeszcze nie ogarniam, a nie mam czasu żeby wymyślić własny)
 - Algorytm pomocniczy do obliczenia iloczynu wektorowego (też ChatGPT)
 - Algorytm porównujący do sortowania względem kąta biegunowego (też ChatGPT)
-- Jeśli zdążę, to dorzucę własny algorytm na otaczające punkty, ale wątpię żebym się z tym wyrobił (pomysł jest taki, żeby policzyć wzory na linie między każdą parą punktów i sprawdzić, które z nich nie mają żadnych punktów po jednej ze stron, punkty definiujące te linie są punktami otaczającymi, zdaję sobie jednak sprawę, że to rozwiązanie ma wykładniczy przyrost czasu do ilości punktów)
+- Jeśli zdążę, to dorzucę własny algorytm na otaczające punkty, ale wątpię żebym się z tym wyrobił (pomysł jest taki, żeby policzyć wzory na linie między każdą parą punktów i sprawdzić, które z nich nie mają żadnych punktów po jednej ze stron, punkty definiujące te linie są punktami otaczającymi, zdaję sobie jednak sprawę, że to rozwiązanie ma wykładniczy przyrost czasu do ilości punktów) - edit: zrobione 1.11.2024 na gałęzi "experimental"
