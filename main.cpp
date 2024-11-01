@@ -15,6 +15,58 @@ struct Point
     }
 };
 
+//  Line struct (mine)
+struct Line
+{
+    double a, b, x1, x2, y1, y2;
+    bool isVertical;
+    
+    //  Constructor: creates a line in slope-intercept form out of two points
+    Line(Point p1, Point p2)
+        : x1(p1.x), x2(p2.x), y1(p1.y), y2(p2.y)
+    {
+        if (isVertical = (x2 - x1) == 0)
+        {
+            a = x1;
+            b = 0;
+        }
+        else
+        {
+            a = (y2 - y1) / (x2 - x1);
+            b = y1 - a * x1;
+        }
+    }
+
+    //  Checks if there is a side without points (returns: up - 1, down - 2, none - 0)
+    int checkSides(std::vector<Point>& points)
+    {
+        int upSide = 0, downSide = 0;
+        for (int i = 0; i < points.size(); i++)
+        {
+            if (isVertical)
+            {
+                if (points[i].x > a)
+                    upSide++;
+                else if (points[i].x < a)
+                    downSide++;
+            }
+            else
+            {
+                if (points[i].y > a * points[i].x + b)
+                    upSide++;
+                else if (points[i].y < a * points[i].x + b)
+                    downSide++;
+            }
+        }
+        if (!upSide)
+            return 1;
+        else if (!downSide)
+            return 2;
+        
+        return 0;
+    }
+};
+
 //  SplitText function (mine)
 std::vector<std::string> SplitText(std::string& text, char delimiter)
 {
@@ -79,6 +131,39 @@ std::vector<Point> ConvexHull_Graham(std::vector<Point>& points)
     return hull;
 }
 
+//  My surrounding points (convex hull) function
+std::vector<Point> ConvexHull_Stachu(std::vector<Point>& points)
+{
+    std::vector<int> surroundingPointsIndices;
+    for (int i = 0; i < points.size(); i++)
+    {
+        surroundingPointsIndices.push_back(0);
+    }
+
+    //  Finding lines that don't have any points on one of the sides
+    for (int i = 0; i < points.size() - 1; i++)
+    {
+        for (int j = i + 1; j < points.size(); j++)
+        {
+            Line line(points[i], points[j]);
+            if (line.checkSides(points))
+            {
+                surroundingPointsIndices[i]++;
+                surroundingPointsIndices[j]++;
+            }
+        }
+    }
+
+    std::vector<Point> surroundingPoints;
+    for (int i = 0; i < surroundingPointsIndices.size(); i++)
+    {
+        if (surroundingPointsIndices[i])
+            surroundingPoints.push_back(points[i]);
+    }
+
+    return surroundingPoints;
+}
+
 //  Main function (mine)
 int main()
 {
@@ -114,13 +199,25 @@ int main()
 
     //      Getting the surrounding points using Graham algorithm for convex hull
     std::vector<Point> surroundingPointsVector = ConvexHull_Graham(pointsVector);
-    //  LOG: Surrounding points vector - works!!!
-    std::cout << "\nOutput points:\n" << "[";
+    //  LOG: Surrounding points vector (Graham) - works!!!
+    std::cout << "\nOutput points (Graham):\n" << "[";
     for (int i = 0; i < surroundingPointsVector.size(); i++)
     {
         if (i > 0)
             std::cout << ", ";
         std::cout << "(" << surroundingPointsVector[i].x << ", " << surroundingPointsVector[i].y << ")";
+    }
+    std::cout << "]\n";
+
+    //      Getting the surrounding points using my own algorithm for convex hull
+    std::vector<Point> surroundingPointsVector_Stachu = ConvexHull_Stachu(pointsVector);
+    //  LOG: Surrounding points vector (Stachu) - works, but needs testing
+    std::cout << "\nOutput points (Stachu):\n" << "[";
+    for (int i = 0; i < surroundingPointsVector_Stachu.size(); i++)
+    {
+        if (i > 0)
+            std::cout << ", ";
+        std::cout << "(" << surroundingPointsVector_Stachu[i].x << ", " << surroundingPointsVector_Stachu[i].y << ")";
     }
     std::cout << "]\n";
 
